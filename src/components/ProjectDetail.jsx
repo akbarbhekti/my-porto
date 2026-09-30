@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ExternalLink, GitBranch as Github } from "lucide-react";
 import { toSlug } from "../utils/slug";
 
 const ProjectDetail = () => {
