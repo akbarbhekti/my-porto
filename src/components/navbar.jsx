@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext"; // Import context
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [activeSection, setActiveSection] = useState("Home");
-    
+    const { lang, toggleLanguage, t } = useLanguage();
+
     const navItems = [
-        { href: "#Home", label: "Beranda" },
-        { href: "#About", label: "Tentang" },
-        { href: "#Portofolio", label: "Proyek" },
-        { href: "#Contact", label: "Kontak" },
+        { href: "#Home", label: t.nav.home },
+        { href: "#About", label: t.nav.about },
+        { href: "#Portofolio", label: t.nav.projects },
+        { href: "#Contact", label: t.nav.contact },
     ];
 
     useEffect(() => {
@@ -38,7 +39,6 @@ const Navbar = () => {
             scrolled ? "bg-[#0A0D10]/80 backdrop-blur-md border-b border-white/5 py-3" : "bg-transparent py-5"
         }`}>
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-                {/* Brand Name persis LamzDev */}
                 <a href="#Home" className="text-2xl font-bold tracking-tight text-white flex items-center gap-1">
                     Akbar<span className="text-[#2dd4bf]">Dev</span><span className="text-[#2dd4bf]">.</span>
                 </a>
@@ -56,21 +56,29 @@ const Navbar = () => {
                         </a>
                     ))}
                     
-                    {/* Badge ID */}
-                    <div className="px-2.5 py-1 rounded-md border border-white/10 text-xs text-gray-300 font-medium">
-                        ID ▾
-                    </div>
+                    {/* Tombol Switch Bahasa */}
+                    <button 
+                        onClick={toggleLanguage}
+                        className="px-2.5 py-1 rounded-md border border-white/10 text-xs text-gray-300 font-medium hover:border-[#2dd4bf] hover:text-[#2dd4bf] transition-colors cursor-pointer"
+                    >
+                        {lang} ▾
+                    </button>
                 </div>
 
-                {/* Mobile Menu Toggle */}
-                <div className="md:hidden">
+                {/* Mobile Menu */}
+                <div className="md:hidden flex items-center gap-3">
+                    <button 
+                        onClick={toggleLanguage}
+                        className="px-2 py-0.5 rounded border border-white/10 text-xs text-gray-300"
+                    >
+                        {lang}
+                    </button>
                     <button onClick={() => setIsOpen(!isOpen)} className="text-gray-300 hover:text-white">
                         {isOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
             </div>
 
-            {/* Mobile Dropdown */}
             {isOpen && (
                 <div className="md:hidden bg-[#0D1117] border-b border-white/10 px-6 py-4 space-y-3">
                     {navItems.map((item) => (

@@ -1,9 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { supabase } from "../supabase";
+import React, { useState } from "react";
 import CardProject from "../components/CardProject";
 import Certificate from "../components/Certificate";
+import { useLanguage } from "../context/LanguageContext";
 
-// Daftar Skill Card persis Gambar 3
+// DAFTAR PROYEK RESMI KAMU
+const myProjects = [
+  {
+    id: 1,
+    Title: "Tosalign",
+    Description: "Website resmi penyedia perawatan gigi modern 'Gigi Rapi Tanpa Behel Dengan Clear Aligner', menghadirkan informasi layanan, testimoni pasien bergaransi, dan konsultasi interaktif.",
+    Link: "https://www.tosalign.com/",
+    Img: "/tosalign.png",
+  },
+  {
+    id: 2,
+    Title: "Depo Bangunan Corporate",
+    Description: "Portal resmi korporasi PT Caturkarda Depo Bangunan Tbk yang menyajikan profil perusahaan, informasi hubungan investor (Investor Relations), tata kelola perusahaan, dan berita terkini secara terstruktur dan profesional.",
+    Link: "https://corporate.depobangunan.co.id/",
+    Img: "/depobangunan.png",
+  },
+];
+
+// DAFTAR SKILL
 const skills = [
   { name: "HTML5 & CSS3", category: "Frontend Core", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
   { name: "JavaScript", category: "Programming Language", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
@@ -16,34 +34,22 @@ const skills = [
 ];
 
 export default function Portofolio() {
-  const [projects, setProjects] = useState([]);
-  const [certificates, setCertificates] = useState([]);
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState("projects");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const [pRes, cRes] = await Promise.all([
-        supabase.from("projects").select("*").order("id", { ascending: false }),
-        supabase.from("certificates").select("*").order("id", { ascending: false }),
-      ]);
-      setProjects(pRes.data || []);
-      setCertificates(cRes.data || []);
-    };
-    fetchData();
-  }, []);
+  const [certificates, setCertificates] = useState([]);
 
   return (
     <div className="py-24 px-6 lg:px-16 bg-[#0A0D10] text-white" id="Portofolio">
       
-      {/* Judul Skills & Technologies */}
+      {/* Header Skills */}
       <div className="text-center space-y-3 mb-16">
         <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-          Skills & <span className="text-[#2dd4bf]">Technologies</span>
+          {t.portfolio.skillsTitle1} <span className="text-[#2dd4bf]">{t.portfolio.skillsTitle2}</span>
         </h2>
         <div className="w-20 h-1 bg-gradient-to-r from-[#2dd4bf] to-transparent rounded-full mx-auto" />
       </div>
 
-      {/* Grid Skills persis Gambar 3 */}
+      {/* Grid Skills */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-24">
         {skills.map((skill) => (
           <div 
@@ -72,7 +78,7 @@ export default function Portofolio() {
                 : "bg-[#12161D] text-gray-400 hover:text-white"
             }`}
           >
-            Semua Proyek ({projects.length})
+            {t.portfolio.tabProjects} ({myProjects.length})
           </button>
           <button
             onClick={() => setActiveTab("certificates")}
@@ -82,21 +88,28 @@ export default function Portofolio() {
                 : "bg-[#12161D] text-gray-400 hover:text-white"
             }`}
           >
-            Sertifikat ({certificates.length})
+            {t.portfolio.tabCertificates} ({certificates.length})
           </button>
         </div>
 
+        {/* Daftar Proyek */}
         {activeTab === "projects" ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((p) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {myProjects.map((p) => (
               <CardProject key={p.id} {...p} />
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {certificates.map((c) => (
-              <Certificate key={c.id} ImgSertif={c.Img} />
-            ))}
+            {certificates.length > 0 ? (
+              certificates.map((c) => (
+                <Certificate key={c.id} ImgSertif={c.Img} />
+              ))
+            ) : (
+              <p className="text-gray-500 text-center col-span-3 py-8">
+                Belum ada sertifikat yang ditampilkan.
+              </p>
+            )}
           </div>
         )}
       </div>

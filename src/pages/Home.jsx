@@ -1,4 +1,5 @@
 import React from "react";
+import { useLanguage } from "../context/LanguageContext";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight } from "lucide-react";
 
@@ -15,6 +16,8 @@ const SocialIcon = ({ href, children }) => (
 );
 
 const Home = () => {
+  const { t } = useLanguage();
+
   return (
     <>
       <Helmet>
@@ -33,7 +36,7 @@ const Home = () => {
           {/* Kolom Kiri */}
           <div className="space-y-6">
             
-            {/* TULISAN BESAR: AKBAR (Solid) & BHEKTI (Outline Stroke) PERSIS REFERENSI */}
+            {/* TULISAN BESAR: AKBAR & BHEKTI */}
             <div className="space-y-0 leading-none select-none">
               <h2 className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white m-0">
                 AKBAR
@@ -49,32 +52,32 @@ const Home = () => {
               </h2>
             </div>
 
-            {/* Sub-judul dengan kata Full-stack Developer berwarna Mint */}
+            {/* Sub-judul Dinamis (Multi-bahasa) */}
             <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-snug pt-2">
-              Seorang <span className="text-[#2dd4bf]">Full-stack Developer</span>
+              {t.hero.role1} <span className="text-[#2dd4bf]">{t.hero.role2}</span>
               <br />
-              Web & Software Engineer
+              {t.hero.role3}
             </h1>
 
+            {/* Deskripsi Dinamis */}
             <p className="text-gray-400 max-w-xl text-base sm:text-lg leading-relaxed">
-              Saya merancang dan membangun aplikasi web modern dari antarmuka
-              hingga sistem backend yang cepat, aman, dan mudah dikembangkan.
+              {t.hero.description}
             </p>
 
-            {/* Tombol Aksi */}
+            {/* Tombol Aksi Dinamis */}
             <div className="flex flex-wrap gap-4 pt-2">
               <a
                 href="#Portofolio"
                 className="px-6 py-3.5 rounded-xl bg-[#2dd4bf] hover:bg-[#14b8a6] text-[#0A0D10] font-bold text-sm flex items-center gap-2 transition-all shadow-[0_0_25px_rgba(45,212,191,0.25)] hover:scale-105"
               >
-                Lihat Proyek <ArrowRight size={16} />
+                {t.hero.btnProjects} <ArrowRight size={16} />
               </a>
 
               <a
                 href="#Contact"
                 className="px-6 py-3.5 rounded-xl bg-[#12161D] border border-white/10 hover:border-white/20 text-white font-semibold text-sm transition-all hover:bg-[#161B22]"
               >
-                Kontak Saya
+                {t.hero.btnContact}
               </a>
             </div>
 
@@ -100,14 +103,14 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Kolom Kanan: Foto Lingkaran + Efek Cincin Ganda + Overlay Terminal */}
+          {/* Kolom Kanan: Foto Profil */}
           <div className="flex justify-center relative mt-6 lg:mt-0">
             
             {/* Badge Status Available */}
             <div className="absolute -top-6 right-6 sm:right-12 z-20 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#12161D]/90 border border-white/10 backdrop-blur-md">
               <span className="w-2 h-2 rounded-full bg-[#2dd4bf] animate-ping" />
               <span className="text-[11px] font-mono tracking-widest text-gray-200">
-                AVAILABLE FOR WORK
+                {t.hero.badge}
               </span>
             </div>
 
@@ -120,7 +123,7 @@ const Home = () => {
                 {/* Foto Profil Lingkaran */}
                 <div className="w-full h-full rounded-full overflow-hidden shadow-[0_0_50px_rgba(45,212,191,0.15)] bg-[#12161D]">
                   <img
-                    src="/Photo.jpeg"
+                    src="/myphoto.png"
                     alt="Akbar Bhekti"
                     className="w-full h-full object-cover grayscale-[15%] hover:grayscale-0 transition-all duration-500 hover:scale-105"
                     onError={(e) => {

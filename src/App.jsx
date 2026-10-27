@@ -1,14 +1,19 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { useState, lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { AnimatePresence } from "framer-motion";
 import "./index.css";
+
+// PROVIDER BAHASA
+import { LanguageProvider } from "./context/LanguageContext";
+
+// KOMPONEN & PAGES
 import Navbar from "./components/navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import AnimatedBackground from "./components/Background";
-import { AnimatePresence } from "framer-motion";
 import Footer from "./components/footer";
-import AIChatWidget from "./components/AIChatWidget"; // <-- IMPORT DI SINI
+import AIChatWidget from "./components/AIChatWidget";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -61,52 +66,54 @@ function App() {
 
   return (
     <HelmetProvider>
-      <div className="pointer-events-none">
-        <AnimatedBackground />
-      </div>
-      
-      {/* WIDGET AI CHATBOT MELAYANG */}
-      <AIChatWidget />
+      <LanguageProvider>
+        <div className="pointer-events-none">
+          <AnimatedBackground />
+        </div>
+        
+        {/* WIDGET AI CHATBOT MELAYANG */}
+        <AIChatWidget />
 
-      <BrowserRouter>
-        <Routes>
-          {/* PUBLIC */}
-          <Route
-            path="/"
-            element={
-              <LandingPage
-                showWelcome={showWelcome}
-                setShowWelcome={setShowWelcome}
-              />
-            }
-          />
+        <BrowserRouter>
+          <Routes>
+            {/* PUBLIC */}
+            <Route
+              path="/"
+              element={
+                <LandingPage
+                  showWelcome={showWelcome}
+                  setShowWelcome={setShowWelcome}
+                />
+              }
+            />
 
-          <Route path="/project/:slug" element={<ProjectPageLayout />} />
+            <Route path="/project/:slug" element={<ProjectPageLayout />} />
 
-          {/* AUTH */}
-          <Route path="/login" element={<Login />} />
+            {/* AUTH */}
+            <Route path="/login" element={<Login />} />
 
-          {/* ADMIN (PROTECTED) */}
-          <Route
-            path="/dashboard/*"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+            {/* ADMIN (PROTECTED) */}
+            <Route
+              path="/dashboard/*"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* 404 */}
-          <Route
-            path="*"
-            element={
-              <Suspense fallback={null}>
-                <NotFoundPage />
-              </Suspense>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+            {/* 404 */}
+            <Route
+              path="*"
+              element={
+                <Suspense fallback={null}>
+                  <NotFoundPage />
+                </Suspense>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </LanguageProvider>
     </HelmetProvider>
   );
 }

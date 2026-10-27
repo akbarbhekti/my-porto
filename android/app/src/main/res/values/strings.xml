@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Akbar Portfolio</string>
+    <string name="title_activity_main">Akbar Portfolio</string>
+    <string name="package_name">com.akbardev.portfolio</string>
+    <string name="custom_url_scheme">com.akbardev.portfolio</string>
+</resources>
