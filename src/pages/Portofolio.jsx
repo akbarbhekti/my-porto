@@ -3,23 +3,69 @@ import CardProject from "../components/CardProject";
 import Certificate from "../components/Certificate";
 import { useLanguage } from "../context/LanguageContext";
 
-// DAFTAR PROYEK RESMI KAMU
-const myProjects = [
-  {
-    id: 1,
-    Title: "Tosalign",
-    Description: "Website resmi penyedia perawatan gigi modern 'Gigi Rapi Tanpa Behel Dengan Clear Aligner', menghadirkan informasi layanan, testimoni pasien bergaransi, dan konsultasi interaktif.",
-    Link: "https://www.tosalign.com/",
-    Img: "/tosalign.png",
-  },
-  {
-    id: 2,
-    Title: "Depo Bangunan Corporate",
-    Description: "Portal resmi korporasi PT Caturkarda Depo Bangunan Tbk yang menyajikan profil perusahaan, informasi hubungan investor (Investor Relations), tata kelola perusahaan, dan berita terkini secara terstruktur dan profesional.",
-    Link: "https://corporate.depobangunan.co.id/",
-    Img: "/depobangunan.png",
-  },
-];
+// DAFTAR PROYEK (VERSI ID & EN)
+const projectsData = {
+  ID: [
+    {
+      id: 1,
+      role: "Web Developer",
+      company: "TOS & ALIGN",
+      period: "2025-2026",
+      link: "https://www.tosalign.com/",
+      logo: "/tosalign.png",
+      points: [
+        "Mengembangkan dan merawat website resmi penyedia perawatan gigi modern 'Gigi Rapi Tanpa Behel'.",
+        "Menerjemahkan rancangan antarmuka (UI/UX) menjadi kodingan fungsional, interaktif, dan konsisten.",
+        "Membangun fitur konsultasi dan presentasi testimoni bergaransi pertama di Indonesia dengan integrasi yang mulus.",
+        "Mengoptimalkan performa halaman web dan responsivitas pada perangkat mobile dan desktop.",
+      ],
+    },
+    {
+      id: 2,
+      role: "Full-stack / Web Developer",
+      company: "PT CATURKARDA DEPO BANGUNAN TBK",
+      period: "2025 - 2026",
+      link: "https://corporate.depobangunan.co.id/",
+      logo: "/depobangunan.png",
+      points: [
+        "Membangun portal resmi korporasi Depo Bangunan yang menyajikan informasi profil perusahaan dan berita publik.",
+        "Mengembangkan modul Hubungan Investor (Investor Relations) untuk laporan keuangan, prospektus, dan RUPS.",
+        "Menerapkan tata kelola data yang aman, struktur hierarki informasi yang jelas, dan navigasi yang ramah pengguna.",
+        "Bekerja sama secara efektif untuk memastikan seluruh informasi kepatuhan perusahaan tersaji secara akurat.",
+      ],
+    },
+  ],
+  EN: [
+    {
+      id: 1,
+      role: "Web Developer",
+      company: "TOS & ALIGN",
+      period: "2024 - Present",
+      link: "https://www.tosalign.com/",
+      logo: "/tosalign.png",
+      points: [
+        "Developed and maintained the official website for modern dental care 'Teeth Straightening Without Braces'.",
+        "Translated UI/UX designs into functional, highly interactive, and consistent responsive code.",
+        "Built seamless consultation workflows and showcase features for Indonesia's first guaranteed clear aligner service.",
+        "Optimized web performance and ensured high responsiveness across both mobile and desktop devices.",
+      ],
+    },
+    {
+      id: 2,
+      role: "Full-stack / Web Developer",
+      company: "PT CATURKARDA DEPO BANGUNAN TBK",
+      period: "2025 - 2026",
+      link: "https://corporate.depobangunan.co.id/",
+      logo: "/depobangunan.png",
+      points: [
+        "Built the official corporate portal for Depo Bangunan, delivering structured company profiles and public news.",
+        "Developed the Investor Relations module showcasing financial reports, prospectuses, and shareholder meeting agendas.",
+        "Implemented secure data architecture, clear informational hierarchy, and intuitive user navigation.",
+        "Collaborated effectively with cross-functional teams to ensure compliance and corporate governance accuracy.",
+      ],
+    },
+  ],
+};
 
 // DAFTAR SKILL
 const skills = [
@@ -34,9 +80,12 @@ const skills = [
 ];
 
 export default function Portofolio() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [activeTab, setActiveTab] = useState("projects");
   const [certificates, setCertificates] = useState([]);
+
+  // Ambil daftar proyek sesuai bahasa yang sedang aktif (ID atau EN)
+  const currentProjects = projectsData[lang] || projectsData.ID;
 
   return (
     <div className="py-24 px-6 lg:px-16 bg-[#0A0D10] text-white" id="Portofolio">
@@ -68,7 +117,7 @@ export default function Portofolio() {
       </div>
 
       {/* Showcase Proyek & Sertifikat */}
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <div className="flex justify-center gap-4 mb-10">
           <button
             onClick={() => setActiveTab("projects")}
@@ -78,7 +127,7 @@ export default function Portofolio() {
                 : "bg-[#12161D] text-gray-400 hover:text-white"
             }`}
           >
-            {t.portfolio.tabProjects} ({myProjects.length})
+            {t.portfolio.tabProjects} ({currentProjects.length})
           </button>
           <button
             onClick={() => setActiveTab("certificates")}
@@ -92,10 +141,10 @@ export default function Portofolio() {
           </button>
         </div>
 
-        {/* Daftar Proyek */}
+        {/* Daftar Proyek yang Otomatis Berubah Bahasa */}
         {activeTab === "projects" ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {myProjects.map((p) => (
+          <div className="space-y-6">
+            {currentProjects.map((p) => (
               <CardProject key={p.id} {...p} />
             ))}
           </div>
@@ -107,7 +156,7 @@ export default function Portofolio() {
               ))
             ) : (
               <p className="text-gray-500 text-center col-span-3 py-8">
-                Belum ada sertifikat yang ditampilkan.
+                {lang === "ID" ? "Belum ada sertifikat yang ditampilkan." : "No certificates available yet."}
               </p>
             )}
           </div>
